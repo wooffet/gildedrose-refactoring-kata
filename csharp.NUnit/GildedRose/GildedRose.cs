@@ -7,6 +7,7 @@ namespace GildedRoseKata;
 public class GildedRose
 {
     IList<Item> Items;
+    // TODO: Can probably move all these values to a config file/db table
     private readonly int LEGENDARY_QUALITY = 80;
     private readonly int MAX_NON_LEGENDARY_QUALITY = 50;
     private readonly int MIN_NON_LEGENDARY_QUALITY = 0;
@@ -18,7 +19,7 @@ public class GildedRose
     private readonly int BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE = 10;
     private readonly int BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO = 5;
     private readonly string SPECIALITEM_AGED_ITEM_PREFIX = "Aged";
-    private readonly string SPECIALITEM_BACKSTAGE_PASS_ITEM_PREFIX = "Backstage pass"; // double check backstage items will always have this prefix with PM/BA
+    private readonly string SPECIALITEM_BACKSTAGE_PASS_ITEM_PREFIX = "Backstage pass"; // TODO: double check backstage items will always have this prefix with PM/BA
     private readonly string SPECIALITEM_CONJURED_ITEM_NAME_PREFIX = "Conjured";
 
     public GildedRose(IList<Item> Items)
