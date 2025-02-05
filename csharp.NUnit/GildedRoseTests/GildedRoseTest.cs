@@ -16,12 +16,22 @@ public class GildedRoseTest
     }
 
     [Test]
-    public void UpdateQuality_NormalItem_DecreaseSellInAndQuantityByOne()
+    public void UpdateQuality_NormalItem_DecreaseSellInAndQualityByOne()
     {
         var items = new List<Item> { new Item { Name = "foo", SellIn = 2, Quality = 2 } };
         var app = new GildedRose(items);
         app.UpdateQuality();
         Assert.That(items[0].SellIn, Is.EqualTo(1));
         Assert.That(items[0].Quality, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void UpdateQuality_NormalItem_DecreaseSellInByOneAndQualityByTwo()
+    {
+        var items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 5 } };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].SellIn, Is.EqualTo(-1));
+        Assert.That(items[0].Quality, Is.EqualTo(3));
     }
 }
