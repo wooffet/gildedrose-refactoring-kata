@@ -32,13 +32,16 @@ public class GildedRoseTest
     }
 
     [Test]
-    public void UpdateQuality_NormalItem_ShouldDecreaseSellInByOneAndQualityByTwo()
+    [TestCase("foo", 0, 5, -1, 3)]
+    [TestCase("bar", -3, 9, -4, 7)]
+    [TestCase("baz", -1, 2, -2, 0)]
+    public void UpdateQuality_NormalItem_ShouldDecreaseSellInByOneAndQualityByTwo(string name, int sellIn, int quality, int expectedSellIn, int expectedQuality)
     {
-        var items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 5 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].SellIn, Is.EqualTo(-1));
-        Assert.That(items[0].Quality, Is.EqualTo(3));
+        Assert.That(items[0].SellIn, Is.EqualTo(expectedSellIn));
+        Assert.That(items[0].Quality, Is.EqualTo(expectedQuality));
     }
 
     [Test]
@@ -62,55 +65,70 @@ public class GildedRoseTest
     }
 
     [Test]
-    public void UpdateQuality_SpecialItem_AgedBrie_ShouldDecreaseSellInAndIncreaseQualityByOne()
+    [TestCase("Aged foo", 5, 5, 4, 6)]
+    [TestCase("Aged bar", 10, 9, 9, 10)]
+    [TestCase("Aged baz", -1, 0, -2, 1)]
+    public void UpdateQuality_SpecialItem_Aged_ShouldDecreaseSellInAndIncreaseQualityByOne(string name, int sellIn, int quality, int expectedSellIn, int expectedQuality)
     {
-        var items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 5, Quality = 5 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].SellIn, Is.EqualTo(4));
-        Assert.That(items[0].Quality, Is.EqualTo(6));
+        Assert.That(items[0].SellIn, Is.EqualTo(expectedSellIn));
+        Assert.That(items[0].Quality, Is.EqualTo(expectedQuality));
     }
 
     [Test]
-    public void UpdateQuality_Item_QualityShouldNotExceedFifty()
+    [TestCase("foo", 2, 55, 1, 50)]
+    [TestCase("Aged bar", 2, 50, 1, 50)]
+    public void UpdateQuality_Item_QualityShouldNotExceedFifty(string name, int sellIn, int quality, int expectedSellIn, int expectedQuality)
     {
-        var items = new List<Item> { new Item { Name = "foo", SellIn = 2, Quality = 55 }, new Item { Name = "Aged Brie", SellIn = 2, Quality = 50 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].SellIn, Is.EqualTo(1));
-        Assert.That(items[0].Quality, Is.EqualTo(50));
-        Assert.That(items[1].SellIn, Is.EqualTo(1));
-        Assert.That(items[1].Quality, Is.EqualTo(50));
+        Assert.That(items[0].SellIn, Is.EqualTo(expectedSellIn));
+        Assert.That(items[0].Quality, Is.EqualTo(expectedQuality));
     }
 
     [Test]
-    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInExceedsTenShouldDecreaseSellInAndIncreaseQualityByOne()
+    [TestCase("Backstage passes to a TAFKAL80ETC concert", 15, 5, 14, 6)]
+    [TestCase("Backstage pass bar", 12, 9, 11, 10)]
+    [TestCase("Backstage pass baz", 14, 0, 13, 1)]
+    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInExceedsTenShouldDecreaseSellInAndIncreaseQualityByOne(string name, int sellIn, 
+        int quality, int expectedSellIn, int expectedQuality)
     {
-        var items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 15, Quality = 5 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].SellIn, Is.EqualTo(14));
-        Assert.That(items[0].Quality, Is.EqualTo(6));
+        Assert.That(items[0].SellIn, Is.EqualTo(expectedSellIn));
+        Assert.That(items[0].Quality, Is.EqualTo(expectedQuality));
     }
 
     [Test]
-    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInBetweenTenAndFiveShouldDecreaseSellInByOneAndIncreaseQualityByTwo()
+    [TestCase("Backstage passes to a TAFKAL80ETC concert", 9, 5, 8, 7)]
+    [TestCase("Backstage pass bar", 8, 9, 7, 11)]
+    [TestCase("Backstage pass baz", 10, 0, 9, 2)]
+    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInBetweenTenAndFiveShouldDecreaseSellInByOneAndIncreaseQualityByTwo(string name, int sellIn, 
+        int quality, int expectedSellIn, int expectedQuality)
     {
-        var items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 9, Quality = 5 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].SellIn, Is.EqualTo(8));
-        Assert.That(items[0].Quality, Is.EqualTo(7));
+        Assert.That(items[0].SellIn, Is.EqualTo(expectedSellIn));
+        Assert.That(items[0].Quality, Is.EqualTo(expectedQuality));
     }
 
     [Test]
-    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInLessThanFiveShouldDecreaseSellInByOneAndIncreaseQualityByThree()
+    [TestCase("Backstage passes to a TAFKAL80ETC concert", 4, 5, 3, 8)]
+    [TestCase("Backstage pass bar", 3, 9, 2, 12)]
+    [TestCase("Backstage pass baz", 5, 0, 4, 3)]
+    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInLessThanFiveShouldDecreaseSellInByOneAndIncreaseQualityByThree(string name, int sellIn,
+        int quality, int expectedSellIn, int expectedQuality)
     {
-        var items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 4, Quality = 5 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].SellIn, Is.EqualTo(3));
-        Assert.That(items[0].Quality, Is.EqualTo(8));
+        Assert.That(items[0].SellIn, Is.EqualTo(expectedSellIn));
+        Assert.That(items[0].Quality, Is.EqualTo(expectedQuality));
     }
 
     [Test]
@@ -124,22 +142,30 @@ public class GildedRoseTest
     }
 
     [Test]
-    public void UpdateQuality_SpecialItem_ConjuredItem_GivenSellInExceedsZeroShouldDecreaseSellInByOneAndQualityByTwo()
+    [TestCase("Conjured Mana Cake", 4, 6, 3, 4)]
+    [TestCase("Conjured bar", 10, 9, 9, 7)]
+    [TestCase("Conjured baz", 2, 4, 1, 2)]
+    public void UpdateQuality_SpecialItem_ConjuredItem_GivenSellInExceedsZeroShouldDecreaseSellInByOneAndQualityByTwo(string name, int sellIn,
+        int quality, int expectedSellIn, int expectedQuality)
     {
-        var items = new List<Item> { new Item { Name = "Conjured Mana Cake", SellIn = 4, Quality = 6 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].SellIn, Is.EqualTo(3));
-        Assert.That(items[0].Quality, Is.EqualTo(4));
+        Assert.That(items[0].SellIn, Is.EqualTo(expectedSellIn));
+        Assert.That(items[0].Quality, Is.EqualTo(expectedQuality));
     }
 
     [Test]
-    public void UpdateQuality_SpecialItem_ConjuredItem_GivenSellInLessThanZeroShouldDecreaseSellInByOneAndQualityByFour()
+    [TestCase("Conjured Mana Cake", -1, 6, -2, 2)]
+    [TestCase("Conjured bar", -10, 9, -11, 5)]
+    [TestCase("Conjured baz", 0, 4, -1, 0)]
+    public void UpdateQuality_SpecialItem_ConjuredItem_GivenSellInLessThanZeroShouldDecreaseSellInByOneAndQualityByFour(string name, int sellIn,
+        int quality, int expectedSellIn, int expectedQuality)
     {
-        var items = new List<Item> { new Item { Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].SellIn, Is.EqualTo(-2));
-        Assert.That(items[0].Quality, Is.EqualTo(2));
+        Assert.That(items[0].SellIn, Is.EqualTo(expectedSellIn));
+        Assert.That(items[0].Quality, Is.EqualTo(expectedQuality));
     }
 }
