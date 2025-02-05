@@ -7,6 +7,8 @@ public class GildedRose
 {
     IList<Item> Items;
     private readonly int LEGENDARY_QUALITY = 80;
+    private readonly int MAX_NON_LEGENDARY_QUALITY = 50;
+    private readonly int MIN_NON_LEGENDARY_QUALITY = 0;
     private readonly string SPECIALITEM_AGED_BRIE_NAME = "Aged Brie";
 
     public GildedRose(IList<Item> Items)
@@ -20,7 +22,7 @@ public class GildedRose
         {
             if (Items[i].Name != SPECIALITEM_AGED_BRIE_NAME && Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
             {
-                if (Items[i].Quality > 0)
+                if (Items[i].Quality > MIN_NON_LEGENDARY_QUALITY)
                 {
                     if (Items[i].Quality != LEGENDARY_QUALITY)
                     {
@@ -30,7 +32,7 @@ public class GildedRose
             }
             else
             {
-                if (Items[i].Quality < 50)
+                if (Items[i].Quality < MAX_NON_LEGENDARY_QUALITY)
                 {
                     Items[i].Quality = Items[i].Quality + 1;
 
@@ -38,7 +40,7 @@ public class GildedRose
                     {
                         if (Items[i].SellIn < 11)
                         {
-                            if (Items[i].Quality < 50)
+                            if (Items[i].Quality < MAX_NON_LEGENDARY_QUALITY)
                             {
                                 Items[i].Quality = Items[i].Quality + 1;
                             }
@@ -46,7 +48,7 @@ public class GildedRose
 
                         if (Items[i].SellIn < 6)
                         {
-                            if (Items[i].Quality < 50)
+                            if (Items[i].Quality < MAX_NON_LEGENDARY_QUALITY)
                             {
                                 Items[i].Quality = Items[i].Quality + 1;
                             }
@@ -66,7 +68,7 @@ public class GildedRose
                 {
                     if (Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
                     {
-                        if (Items[i].Quality > 0)
+                        if (Items[i].Quality > MIN_NON_LEGENDARY_QUALITY)
                         {
                             if (Items[i].Quality != LEGENDARY_QUALITY)
                             {
@@ -81,7 +83,7 @@ public class GildedRose
                 }
                 else
                 {
-                    if (Items[i].Quality < 50)
+                    if (Items[i].Quality < MAX_NON_LEGENDARY_QUALITY)
                     {
                         Items[i].Quality = Items[i].Quality + 1;
                     }
