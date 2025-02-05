@@ -9,6 +9,13 @@ public class GildedRose
     private readonly int LEGENDARY_QUALITY = 80;
     private readonly int MAX_NON_LEGENDARY_QUALITY = 50;
     private readonly int MIN_NON_LEGENDARY_QUALITY = 0;
+    private readonly int DEFAULT_QUALITY_DECAY = 1;
+    private readonly int DEFAULT_SELLIN_DECAY = 1;
+    private readonly int DEFAULT_SELLIN_DECAY_THRESHOLD = 0;
+    private readonly int SPECIALITEM_DEFAULT_QUALITY_GAIN = 1;
+    private readonly int CONJURED_ITEM_QUALITY_DECAY = 2;
+    private readonly int BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE = 10;
+    private readonly int BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO = 5;
     private readonly string SPECIALITEM_AGED_ITEM_PREFIX = "Aged";
     private readonly string SPECIALITEM_BACKSTAGE_PASS_ITEM_PREFIX = "Backstage pass"; // double check backstage items will always have this prefix with PM/BA
     private readonly string SPECIALITEM_CONJURED_ITEM_NAME_PREFIX = "Conjured";
@@ -34,48 +41,50 @@ public class GildedRose
             if (CanUpdateItem(currentItem.Quality))
             {
                 // reduce the SellIn days by 1
-                currentItem.SellIn -= 1;
+                currentItem.SellIn -= DEFAULT_SELLIN_DECAY;
 
                 // if special item (aged, backstage pass or conjured)
                 if (IsSpecialItem(currentItem.Name))
                 {
                     if (currentItem.Name.StartsWith(SPECIALITEM_AGED_ITEM_PREFIX))
                     {
-                        currentItem.Quality += 1;
+                        currentItem.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN;
                     }
 
                     if (currentItem.Name.StartsWith(SPECIALITEM_BACKSTAGE_PASS_ITEM_PREFIX))
                     {
-                        if (currentItem.SellIn > 10)
+                        if (currentItem.SellIn > BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE)
                         {
-                            currentItem.Quality += 1;
+                            currentItem.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN;
                         }
 
-                        if (currentItem.SellIn <= 10 && currentItem.SellIn > 5) 
+                        if (currentItem.SellIn <= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE && currentItem.SellIn > BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO) 
                         {
-                            currentItem.Quality += 2;
+                            currentItem.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN * 2;
                         }
 
-                        if (currentItem.SellIn <= 5)
+                        if (currentItem.SellIn <= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO)
                         {
-                            currentItem.Quality += 3;
+                            currentItem.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN * 3;
                         }
 
-                        if (currentItem.SellIn < 0)
+                        if (currentItem.SellIn < DEFAULT_SELLIN_DECAY_THRESHOLD)
                         {
-                            currentItem.Quality = 0;
+                            currentItem.Quality = MIN_NON_LEGENDARY_QUALITY;
                         }
                     }
 
                     if (currentItem.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
                     {
-                        currentItem.Quality = currentItem.SellIn > 0 ? currentItem.Quality -= 2 : currentItem.Quality -= 4;
+                        currentItem.Quality = currentItem.SellIn > DEFAULT_SELLIN_DECAY_THRESHOLD ? 
+                            currentItem.Quality -= CONJURED_ITEM_QUALITY_DECAY : currentItem.Quality -= (CONJURED_ITEM_QUALITY_DECAY * 2);
                     }
                 }
                 // else normal item
                 else
                 {
-                    currentItem.Quality = currentItem.SellIn >= 0 ? currentItem.Quality -= 1 : currentItem.Quality -=2;
+                    currentItem.Quality = currentItem.SellIn >= DEFAULT_SELLIN_DECAY_THRESHOLD ? 
+                        currentItem.Quality -= DEFAULT_QUALITY_DECAY : currentItem.Quality -= (DEFAULT_QUALITY_DECAY * 2);
                 }
 
                 // ensure quality is never greater than 50
