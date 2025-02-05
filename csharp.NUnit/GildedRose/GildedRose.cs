@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace GildedRoseKata;
 
 public class GildedRose
 {
     IList<Item> Items;
+    private readonly int LEGENDARY_QUALITY = 80;
 
     public GildedRose(IList<Item> Items)
     {
@@ -19,7 +21,7 @@ public class GildedRose
             {
                 if (Items[i].Quality > 0)
                 {
-                    if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
+                    if (Items[i].Quality != LEGENDARY_QUALITY)
                     {
                         Items[i].Quality = Items[i].Quality - 1;
                     }
@@ -52,7 +54,7 @@ public class GildedRose
                 }
             }
 
-            if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
+            if (Items[i].Quality != LEGENDARY_QUALITY)
             {
                 Items[i].SellIn = Items[i].SellIn - 1;
             }
@@ -65,7 +67,7 @@ public class GildedRose
                     {
                         if (Items[i].Quality > 0)
                         {
-                            if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
+                            if (Items[i].Quality != LEGENDARY_QUALITY)
                             {
                                 Items[i].Quality = Items[i].Quality - 1;
                             }
