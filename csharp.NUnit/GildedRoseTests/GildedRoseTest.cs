@@ -126,4 +126,14 @@ public class GildedRoseTest
         Assert.That(items[0].SellIn, Is.EqualTo(3));
         Assert.That(items[0].Quality, Is.EqualTo(4));
     }
+
+    [Test]
+    public void UpdateQuality_SpecialItem_ConjuredItem_GivenSellInLessThanZeroShouldDecreaseSellInByOneAndQualityByFour()
+    {
+        var items = new List<Item> { new Item { Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 } };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].SellIn, Is.EqualTo(-2));
+        Assert.That(items[0].Quality, Is.EqualTo(2));
+    }
 }
