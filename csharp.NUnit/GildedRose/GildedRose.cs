@@ -89,6 +89,11 @@ public class GildedRose
                     }
                 }
             }
+
+            if (Items[i].Quality != LEGENDARY_QUALITY && Items[i].Quality > MAX_NON_LEGENDARY_QUALITY)
+            {
+                Items[i].Quality = 50;
+            }
         }
     }
 }
