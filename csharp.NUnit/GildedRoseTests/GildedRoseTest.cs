@@ -7,7 +7,7 @@ namespace GildedRoseTests;
 public class GildedRoseTest
 {
     [Test]
-    public void Foo()
+    public void UpdateQuality_Item_NameIsUnmodified()
     {
         var items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 0 } };
         var app = new GildedRose(items);
