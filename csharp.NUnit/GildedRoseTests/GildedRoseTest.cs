@@ -98,7 +98,7 @@ public class GildedRoseTest
     }
 
     [Test]
-    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellLessThanFiveShouldDecreaseSellInByOneAndIncreaseQualityByThree()
+    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInLessThanFiveShouldDecreaseSellInByOneAndIncreaseQualityByThree()
     {
         var items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 4, Quality = 5 } };
         var app = new GildedRose(items);
@@ -108,7 +108,7 @@ public class GildedRoseTest
     }
 
     [Test]
-    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellLessThanZeroShouldDecreaseSellInByOneAndSetQualityToZero()
+    public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInLessThanZeroShouldDecreaseSellInByOneAndSetQualityToZero()
     {
         var items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 0, Quality = 5 } };
         var app = new GildedRose(items);
@@ -118,7 +118,7 @@ public class GildedRoseTest
     }
 
     [Test]
-    public void UpdateQuality_SpecialItem_ConjuredItem_GivenSellExceedsZeroShouldDecreaseSellInByOneAndQualityByTwo()
+    public void UpdateQuality_SpecialItem_ConjuredItem_GivenSellInExceedsZeroShouldDecreaseSellInByOneAndQualityByTwo()
     {
         var items = new List<Item> { new Item { Name = "Conjured Mana Cake", SellIn = 4, Quality = 6 } };
         var app = new GildedRose(items);
