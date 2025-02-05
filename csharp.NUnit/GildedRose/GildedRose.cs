@@ -32,14 +32,7 @@ public class GildedRose
                 {
                     if (currentItem.Quality != LEGENDARY_QUALITY)
                     {
-                        if (currentItem.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
-                        {
-                            currentItem.Quality = currentItem.Quality - 2;
-                        }
-                        else
-                        {
-                            currentItem.Quality = currentItem.Quality - 1;
-                        }
+                        currentItem.Quality = currentItem.Quality - 1;
                     }
                 }
             }
