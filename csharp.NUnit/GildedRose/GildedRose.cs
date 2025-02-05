@@ -11,6 +11,7 @@ public class GildedRose
     private readonly int MIN_NON_LEGENDARY_QUALITY = 0;
     private readonly string SPECIALITEM_AGED_BRIE_NAME = "Aged Brie";
     private readonly string SPECIALITEM_BACKSTAGE_PASS_TAFKAL80ETC_NAME = "Backstage passes to a TAFKAL80ETC concert";
+    private readonly string SPECIALITEM_CONJURED_ITEM_NAME_PREFIX = "Conjured";
 
     public GildedRose(IList<Item> Items)
     {
@@ -23,37 +24,54 @@ public class GildedRose
         {
             var currentItem = Items[i];
 
-            if (currentItem.Name != SPECIALITEM_AGED_BRIE_NAME && currentItem.Name != SPECIALITEM_BACKSTAGE_PASS_TAFKAL80ETC_NAME)
+            // if normal item
+            if (currentItem.Name != SPECIALITEM_AGED_BRIE_NAME && currentItem.Name != SPECIALITEM_BACKSTAGE_PASS_TAFKAL80ETC_NAME
+                && !currentItem.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
             {
                 if (currentItem.Quality > MIN_NON_LEGENDARY_QUALITY)
                 {
                     if (currentItem.Quality != LEGENDARY_QUALITY)
                     {
-                        currentItem.Quality = currentItem.Quality - 1;
+                        if (currentItem.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
+                        {
+                            currentItem.Quality = currentItem.Quality - 2;
+                        }
+                        else
+                        {
+                            currentItem.Quality = currentItem.Quality - 1;
+                        }
                     }
                 }
             }
+            // else if brie, backstage pass or conjured
             else
             {
                 if (currentItem.Quality < MAX_NON_LEGENDARY_QUALITY)
                 {
-                    currentItem.Quality = currentItem.Quality + 1;
-
-                    if (currentItem.Name == SPECIALITEM_BACKSTAGE_PASS_TAFKAL80ETC_NAME)
+                    if (currentItem.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
                     {
-                        if (currentItem.SellIn < 11)
-                        {
-                            if (currentItem.Quality < MAX_NON_LEGENDARY_QUALITY)
-                            {
-                                currentItem.Quality = currentItem.Quality + 1;
-                            }
-                        }
+                        currentItem.Quality -= 2;
+                    }
+                    else
+                    {
+                        currentItem.Quality = currentItem.Quality + 1;
 
-                        if (currentItem.SellIn < 6)
+                        if (currentItem.Name == SPECIALITEM_BACKSTAGE_PASS_TAFKAL80ETC_NAME)
                         {
-                            if (currentItem.Quality < MAX_NON_LEGENDARY_QUALITY)
+                            if (currentItem.SellIn < 11)
                             {
-                                currentItem.Quality = currentItem.Quality + 1;
+                                if (currentItem.Quality < MAX_NON_LEGENDARY_QUALITY)
+                                {
+                                    currentItem.Quality = currentItem.Quality + 1;
+                                }
+                            }
+
+                            if (currentItem.SellIn < 6)
+                            {
+                                if (currentItem.Quality < MAX_NON_LEGENDARY_QUALITY)
+                                {
+                                    currentItem.Quality = currentItem.Quality + 1;
+                                }
                             }
                         }
                     }
@@ -75,7 +93,14 @@ public class GildedRose
                         {
                             if (currentItem.Quality != LEGENDARY_QUALITY)
                             {
-                                currentItem.Quality = currentItem.Quality - 1;
+                                if (currentItem.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
+                                {
+                                    currentItem.Quality -= 4;
+                                }
+                                else
+                                {
+                                    currentItem.Quality = currentItem.Quality - 1;
+                                }
                             }
                         }
                     }
