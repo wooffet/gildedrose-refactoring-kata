@@ -54,4 +54,14 @@ public class GildedRoseTest
         Assert.That(items[0].SellIn, Is.EqualTo(1));
         Assert.That(items[0].Quality, Is.EqualTo(80));
     }
+
+    [Test]
+    public void UpdateQuality_SpecialItem_AgedBrie_ShouldDecreaseSellInAndIncreaseQualityByOne()
+    {
+        var items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 5, Quality = 5 } };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].SellIn, Is.EqualTo(4));
+        Assert.That(items[0].Quality, Is.EqualTo(6));
+    }
 }
