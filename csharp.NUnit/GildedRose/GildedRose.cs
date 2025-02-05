@@ -9,7 +9,7 @@ public class GildedRose
     private readonly int LEGENDARY_QUALITY = 80;
     private readonly int MAX_NON_LEGENDARY_QUALITY = 50;
     private readonly int MIN_NON_LEGENDARY_QUALITY = 0;
-    private readonly string SPECIALITEM_AGED_BRIE_NAME = "Aged Brie";
+    private readonly string SPECIALITEM_AGED_ITEM_PREFIX = "Aged";
     private readonly string SPECIALITEM_BACKSTAGE_PASS_TAFKAL80ETC_NAME = "Backstage passes to a TAFKAL80ETC concert";
     private readonly string SPECIALITEM_CONJURED_ITEM_NAME_PREFIX = "Conjured";
 
@@ -25,7 +25,7 @@ public class GildedRose
             var currentItem = Items[i];
 
             // if normal item
-            if (currentItem.Name != SPECIALITEM_AGED_BRIE_NAME && currentItem.Name != SPECIALITEM_BACKSTAGE_PASS_TAFKAL80ETC_NAME
+            if (!currentItem.Name.StartsWith(SPECIALITEM_AGED_ITEM_PREFIX) && currentItem.Name != SPECIALITEM_BACKSTAGE_PASS_TAFKAL80ETC_NAME
                 && !currentItem.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
             {
                 if (currentItem.Quality > MIN_NON_LEGENDARY_QUALITY)
@@ -81,7 +81,7 @@ public class GildedRose
 
             if (currentItem.SellIn < 0)
             {
-                if (currentItem.Name != SPECIALITEM_AGED_BRIE_NAME)
+                if (!currentItem.Name.StartsWith(SPECIALITEM_AGED_ITEM_PREFIX))
                 {
                     if (currentItem.Name != SPECIALITEM_BACKSTAGE_PASS_TAFKAL80ETC_NAME)
                     {
