@@ -43,7 +43,10 @@ public class GildedRose
                 {
                     if (currentItem.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
                     {
-                        currentItem.Quality -= 2;
+                        if (currentItem.SellIn > 0)
+                        {
+                            currentItem.Quality -= 2;
+                        }
                     }
                     else
                     {
