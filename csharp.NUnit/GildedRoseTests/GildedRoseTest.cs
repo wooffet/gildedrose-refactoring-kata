@@ -64,4 +64,16 @@ public class GildedRoseTest
         Assert.That(items[0].SellIn, Is.EqualTo(4));
         Assert.That(items[0].Quality, Is.EqualTo(6));
     }
+
+    [Test]
+    public void UpdateQuality_Item_QualityShouldNotExceedFifty()
+    {
+        var items = new List<Item> { new Item { Name = "foo", SellIn = 2, Quality = 55 }, new Item { Name = "Aged Brie", SellIn = 2, Quality = 50 } };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].SellIn, Is.EqualTo(1));
+        Assert.That(items[0].Quality, Is.EqualTo(50));
+        Assert.That(items[1].SellIn, Is.EqualTo(1));
+        Assert.That(items[1].Quality, Is.EqualTo(50));
+    }
 }
