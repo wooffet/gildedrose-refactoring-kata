@@ -7,7 +7,7 @@ namespace GildedRoseTests;
 public class GildedRoseTest
 {
     [Test]
-    public void UpdateQuality_Item_NameIsUnmodified()
+    public void UpdateQuality_Item_NameShouldBeUnmodified()
     {
         var items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 0 } };
         var app = new GildedRose(items);
@@ -16,7 +16,7 @@ public class GildedRoseTest
     }
 
     [Test]
-    public void UpdateQuality_NormalItem_DecreaseSellInAndQualityByOne()
+    public void UpdateQuality_NormalItem_ShouldDecreaseSellInAndQualityByOne()
     {
         var items = new List<Item> { new Item { Name = "foo", SellIn = 2, Quality = 2 } };
         var app = new GildedRose(items);
@@ -26,7 +26,7 @@ public class GildedRoseTest
     }
 
     [Test]
-    public void UpdateQuality_NormalItem_DecreaseSellInByOneAndQualityByTwo()
+    public void UpdateQuality_NormalItem_ShouldDecreaseSellInByOneAndQualityByTwo()
     {
         var items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 5 } };
         var app = new GildedRose(items);
