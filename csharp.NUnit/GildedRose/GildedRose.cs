@@ -29,7 +29,7 @@ public class GildedRose
 
     private bool CanUpdateItem(int itemQuality) => IsNonLegendaryQualityItem(itemQuality) && itemQuality > MIN_NON_LEGENDARY_QUALITY;
     private bool IsNonLegendaryQualityItem(int itemQuality) => itemQuality < LEGENDARY_QUALITY;
-    private bool IsSpecialItem(string itemName) => itemName.StartsWith(SPECIALITEM_AGED_ITEM_PREFIX) || 
+    private bool IsSpecialItem(string itemName) => itemName.StartsWith(SPECIALITEM_AGED_ITEM_PREFIX) ||
         itemName.StartsWith(SPECIALITEM_BACKSTAGE_PASS_ITEM_PREFIX) || itemName.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX);
 
     public void UpdateQuality()
@@ -40,69 +40,67 @@ public class GildedRose
 
         foreach (var item in itemsToUpdate)
         {
-            if (CanUpdateItem(item.Quality))
-            {
-                // reduce the SellIn days by 1
-                item.SellIn -= DEFAULT_SELLIN_DECAY;
+            // reduce the SellIn days by 1
+            item.SellIn -= DEFAULT_SELLIN_DECAY;
 
-                // if special item (aged, backstage pass or conjured)
-                if (IsSpecialItem(item.Name))
+            // if special item (aged, backstage pass or conjured)
+            if (IsSpecialItem(item.Name))
+            {
+                if (item.Name.StartsWith(SPECIALITEM_AGED_ITEM_PREFIX))
                 {
-                    if (item.Name.StartsWith(SPECIALITEM_AGED_ITEM_PREFIX))
+                    item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN;
+                }
+
+                if (item.Name.StartsWith(SPECIALITEM_BACKSTAGE_PASS_ITEM_PREFIX))
+                {
+                    if (item.SellIn > BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE)
                     {
                         item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN;
                     }
 
-                    if (item.Name.StartsWith(SPECIALITEM_BACKSTAGE_PASS_ITEM_PREFIX))
+                    if (item.SellIn <= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE && item.SellIn > BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO)
                     {
-                        if (item.SellIn > BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE)
-                        {
-                            item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN;
-                        }
-
-                        if (item.SellIn <= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE && item.SellIn > BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO)
-                        {
-                            item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN * 2;
-                        }
-
-                        if (item.SellIn <= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO)
-                        {
-                            item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN * 3;
-                        }
-
-                        if (item.SellIn < DEFAULT_SELLIN_DECAY_THRESHOLD)
-                        {
-                            item.Quality = MIN_NON_LEGENDARY_QUALITY;
-                        }
+                        item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN * 2;
                     }
 
-                    if (item.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
+                    if (item.SellIn <= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO)
                     {
-                        item.Quality = item.SellIn > DEFAULT_SELLIN_DECAY_THRESHOLD ?
-                            item.Quality -= CONJURED_ITEM_QUALITY_DECAY : item.Quality -= (CONJURED_ITEM_QUALITY_DECAY * 2);
+                        item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN * 3;
+                    }
+
+                    if (item.SellIn < DEFAULT_SELLIN_DECAY_THRESHOLD)
+                    {
+                        item.Quality = MIN_NON_LEGENDARY_QUALITY;
                     }
                 }
-                // else normal item
-                else
-                {
-                    item.Quality = item.SellIn >= DEFAULT_SELLIN_DECAY_THRESHOLD ?
-                        item.Quality -= DEFAULT_QUALITY_DECAY : item.Quality -= (DEFAULT_QUALITY_DECAY * 2);
-                }
 
-                // ensure quality is never greater than 50
-                if (item.Quality > MAX_NON_LEGENDARY_QUALITY)
+                if (item.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
                 {
-                    // just set quality to 50
-                    item.Quality = MAX_NON_LEGENDARY_QUALITY;
-                }
-
-                // ensure quality is never less than 0
-                if (item.Quality < MIN_NON_LEGENDARY_QUALITY)
-                {
-                    // just set quality to 0
-                    item.Quality = MIN_NON_LEGENDARY_QUALITY;
+                    item.Quality = item.SellIn > DEFAULT_SELLIN_DECAY_THRESHOLD ?
+                        item.Quality -= CONJURED_ITEM_QUALITY_DECAY : item.Quality -= (CONJURED_ITEM_QUALITY_DECAY * 2);
                 }
             }
+            // else normal item
+            else
+            {
+                item.Quality = item.SellIn >= DEFAULT_SELLIN_DECAY_THRESHOLD ?
+                    item.Quality -= DEFAULT_QUALITY_DECAY : item.Quality -= (DEFAULT_QUALITY_DECAY * 2);
+            }
+
+            // ensure quality is never greater than 50
+            if (item.Quality > MAX_NON_LEGENDARY_QUALITY)
+            {
+                // just set quality to 50
+                item.Quality = MAX_NON_LEGENDARY_QUALITY;
+            }
+
+            // ensure quality is never less than 0
+            if (item.Quality < MIN_NON_LEGENDARY_QUALITY)
+            {
+                // just set quality to 0
+                item.Quality = MIN_NON_LEGENDARY_QUALITY;
+            }
+
         }
     }
 }
