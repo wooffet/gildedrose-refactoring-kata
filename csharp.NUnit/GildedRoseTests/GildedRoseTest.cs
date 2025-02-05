@@ -14,4 +14,14 @@ public class GildedRoseTest
         app.UpdateQuality();
         Assert.That(items[0].Name, Is.EqualTo("foo"));
     }
+
+    [Test]
+    public void UpdateQuality_NormalItem_DecreaseSellInAndQuantityByOne()
+    {
+        var items = new List<Item> { new Item { Name = "foo", SellIn = 2, Quality = 2 } };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].SellIn, Is.EqualTo(1));
+        Assert.That(items[0].Quality, Is.EqualTo(1));
+    }
 }
