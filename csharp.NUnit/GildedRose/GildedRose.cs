@@ -79,17 +79,17 @@ public class GildedRose
                 }
 
                 // ensure quality is never greater than 50
-                if (currentItem.Quality > 50)
+                if (currentItem.Quality > MAX_NON_LEGENDARY_QUALITY)
                 {
                     // just set quality to 50
-                    currentItem.Quality = 50;
+                    currentItem.Quality = MAX_NON_LEGENDARY_QUALITY;
                 }
 
                 // ensure quality is never less than 0
-                if (currentItem.Quality < 0)
+                if (currentItem.Quality < MIN_NON_LEGENDARY_QUALITY)
                 {
                     // just set quality to 0
-                    currentItem.Quality = 0;
+                    currentItem.Quality = MIN_NON_LEGENDARY_QUALITY;
                 }
             }
         }
