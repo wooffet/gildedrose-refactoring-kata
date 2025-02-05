@@ -27,7 +27,7 @@ public class GildedRose
         this.Items = Items;
     }
 
-    private bool CanUpdateItem(int itemQuality) => IsNonLegendaryQualityItem(itemQuality) && itemQuality > MIN_NON_LEGENDARY_QUALITY;
+    private bool CanUpdateItem(int itemQuality) => IsNonLegendaryQualityItem(itemQuality);
     private bool IsNonLegendaryQualityItem(int itemQuality) => itemQuality < LEGENDARY_QUALITY;
     private bool IsSpecialItem(string itemName) => itemName.StartsWith(SPECIALITEM_AGED_ITEM_PREFIX) ||
         itemName.StartsWith(SPECIALITEM_BACKSTAGE_PASS_ITEM_PREFIX) || itemName.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX);
