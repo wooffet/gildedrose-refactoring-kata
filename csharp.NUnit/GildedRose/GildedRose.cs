@@ -20,79 +20,81 @@ public class GildedRose
     {
         for (var i = 0; i < Items.Count; i++)
         {
-            if (Items[i].Name != SPECIALITEM_AGED_BRIE_NAME && Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
+            var currentItem = Items[i];
+
+            if (currentItem.Name != SPECIALITEM_AGED_BRIE_NAME && currentItem.Name != "Backstage passes to a TAFKAL80ETC concert")
             {
-                if (Items[i].Quality > MIN_NON_LEGENDARY_QUALITY)
+                if (currentItem.Quality > MIN_NON_LEGENDARY_QUALITY)
                 {
-                    if (Items[i].Quality != LEGENDARY_QUALITY)
+                    if (currentItem.Quality != LEGENDARY_QUALITY)
                     {
-                        Items[i].Quality = Items[i].Quality - 1;
+                        currentItem.Quality = currentItem.Quality - 1;
                     }
                 }
             }
             else
             {
-                if (Items[i].Quality < MAX_NON_LEGENDARY_QUALITY)
+                if (currentItem.Quality < MAX_NON_LEGENDARY_QUALITY)
                 {
-                    Items[i].Quality = Items[i].Quality + 1;
+                    currentItem.Quality = currentItem.Quality + 1;
 
-                    if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
+                    if (currentItem.Name == "Backstage passes to a TAFKAL80ETC concert")
                     {
-                        if (Items[i].SellIn < 11)
+                        if (currentItem.SellIn < 11)
                         {
-                            if (Items[i].Quality < MAX_NON_LEGENDARY_QUALITY)
+                            if (currentItem.Quality < MAX_NON_LEGENDARY_QUALITY)
                             {
-                                Items[i].Quality = Items[i].Quality + 1;
+                                currentItem.Quality = currentItem.Quality + 1;
                             }
                         }
 
-                        if (Items[i].SellIn < 6)
+                        if (currentItem.SellIn < 6)
                         {
-                            if (Items[i].Quality < MAX_NON_LEGENDARY_QUALITY)
+                            if (currentItem.Quality < MAX_NON_LEGENDARY_QUALITY)
                             {
-                                Items[i].Quality = Items[i].Quality + 1;
+                                currentItem.Quality = currentItem.Quality + 1;
                             }
                         }
                     }
                 }
             }
 
-            if (Items[i].Quality != LEGENDARY_QUALITY)
+            if (currentItem.Quality != LEGENDARY_QUALITY)
             {
-                Items[i].SellIn = Items[i].SellIn - 1;
+                currentItem.SellIn = currentItem.SellIn - 1;
             }
 
-            if (Items[i].SellIn < 0)
+            if (currentItem.SellIn < 0)
             {
-                if (Items[i].Name != SPECIALITEM_AGED_BRIE_NAME)
+                if (currentItem.Name != SPECIALITEM_AGED_BRIE_NAME)
                 {
-                    if (Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
+                    if (currentItem.Name != "Backstage passes to a TAFKAL80ETC concert")
                     {
-                        if (Items[i].Quality > MIN_NON_LEGENDARY_QUALITY)
+                        if (currentItem.Quality > MIN_NON_LEGENDARY_QUALITY)
                         {
-                            if (Items[i].Quality != LEGENDARY_QUALITY)
+                            if (currentItem.Quality != LEGENDARY_QUALITY)
                             {
-                                Items[i].Quality = Items[i].Quality - 1;
+                                currentItem.Quality = currentItem.Quality - 1;
                             }
                         }
                     }
                     else
                     {
-                        Items[i].Quality = Items[i].Quality - Items[i].Quality;
+                        currentItem.Quality = currentItem.Quality - currentItem.Quality;
                     }
                 }
                 else
                 {
-                    if (Items[i].Quality < MAX_NON_LEGENDARY_QUALITY)
+                    if (currentItem.Quality < MAX_NON_LEGENDARY_QUALITY)
                     {
-                        Items[i].Quality = Items[i].Quality + 1;
+                        currentItem.Quality = currentItem.Quality + 1;
                     }
                 }
             }
 
-            if (Items[i].Quality != LEGENDARY_QUALITY && Items[i].Quality > MAX_NON_LEGENDARY_QUALITY)
+            if (currentItem.Quality != LEGENDARY_QUALITY && currentItem.Quality > MAX_NON_LEGENDARY_QUALITY)
             {
-                Items[i].Quality = 50;
+                currentItem.Quality = 50;
             }
         }
     }
