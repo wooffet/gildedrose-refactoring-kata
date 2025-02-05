@@ -94,7 +94,7 @@ public class GildedRose
 
             if (currentItem.Quality != LEGENDARY_QUALITY && currentItem.Quality > MAX_NON_LEGENDARY_QUALITY)
             {
-                currentItem.Quality = 50;
+                currentItem.Quality = MAX_NON_LEGENDARY_QUALITY;
             }
         }
     }
