@@ -22,6 +22,7 @@ public class GildedRoseTest
     [TestCase("foo", 2, 2, 1, 1)]
     [TestCase("bar", 10, 9, 9, 8)]
     [TestCase("baz", 1, 0, 0, 0)]
+    [TestCase("Elixir of the Mongoose", 1, 3, 0, 2)]
     public void UpdateQuality_NormalItem_ShouldDecreaseSellInAndQualityByOne(string name, int sellIn, int quality, int expectedSellIn, int expectedQuality)
     {
         var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
@@ -67,7 +68,7 @@ public class GildedRoseTest
     [Test]
     [TestCase("Aged foo", 5, 5, 4, 6)]
     [TestCase("Aged bar", 10, 9, 9, 10)]
-    [TestCase("Aged baz", -1, 0, -2, 1)]
+    [TestCase("Aged baz", 1, 0, 0, 1)]
     public void UpdateQuality_SpecialItem_Aged_ShouldDecreaseSellInAndIncreaseQualityByOne(string name, int sellIn, int quality, int expectedSellIn, int expectedQuality)
     {
         var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
@@ -90,7 +91,7 @@ public class GildedRoseTest
     }
 
     [Test]
-    [TestCase("Backstage passes to a TAFKAL80ETC concert", 15, 5, 14, 6)]
+    [TestCase("Backstage passes to a TAFKAL80ETC concert", 11, 24, 10, 25)]
     [TestCase("Backstage pass bar", 12, 9, 11, 10)]
     [TestCase("Backstage pass baz", 14, 0, 13, 1)]
     public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInExceedsTenShouldDecreaseSellInAndIncreaseQualityByOne(string name, int sellIn, 
@@ -104,7 +105,7 @@ public class GildedRoseTest
     }
 
     [Test]
-    [TestCase("Backstage passes to a TAFKAL80ETC concert", 9, 5, 8, 7)]
+    [TestCase("Backstage passes to a TAFKAL80ETC concert", 6, 33, 5, 35)]
     [TestCase("Backstage pass bar", 8, 9, 7, 11)]
     [TestCase("Backstage pass baz", 10, 0, 9, 2)]
     public void UpdateQuality_SpecialItem_BackstagePass_GivenSellInBetweenTenAndFiveShouldDecreaseSellInByOneAndIncreaseQualityByTwo(string name, int sellIn, 

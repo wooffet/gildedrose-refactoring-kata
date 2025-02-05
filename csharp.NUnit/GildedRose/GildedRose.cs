@@ -48,22 +48,23 @@ public class GildedRose
             {
                 if (item.Name.StartsWith(SPECIALITEM_AGED_ITEM_PREFIX))
                 {
-                    item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN;
+                    item.Quality = item.SellIn >= DEFAULT_SELLIN_DECAY_THRESHOLD ?
+                        item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN : item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN * 2;
                 }
 
                 if (item.Name.StartsWith(SPECIALITEM_BACKSTAGE_PASS_ITEM_PREFIX))
                 {
-                    if (item.SellIn > BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE)
+                    if (item.SellIn >= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE)
                     {
                         item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN;
                     }
 
-                    if (item.SellIn <= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE && item.SellIn > BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO)
+                    if (item.SellIn < BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_ONE && item.SellIn >= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO)
                     {
                         item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN * 2;
                     }
 
-                    if (item.SellIn <= BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO)
+                    if (item.SellIn < BACKSTAGE_PASS_SELLIN_THRESHOLD_STAGE_TWO)
                     {
                         item.Quality += SPECIALITEM_DEFAULT_QUALITY_GAIN * 3;
                     }
@@ -76,15 +77,15 @@ public class GildedRose
 
                 if (item.Name.StartsWith(SPECIALITEM_CONJURED_ITEM_NAME_PREFIX))
                 {
-                    item.Quality = item.SellIn > DEFAULT_SELLIN_DECAY_THRESHOLD ?
-                        item.Quality -= CONJURED_ITEM_QUALITY_DECAY : item.Quality -= (CONJURED_ITEM_QUALITY_DECAY * 2);
+                    item.Quality = item.SellIn >= DEFAULT_SELLIN_DECAY_THRESHOLD ?
+                        item.Quality -= CONJURED_ITEM_QUALITY_DECAY : item.Quality -= CONJURED_ITEM_QUALITY_DECAY * 2;
                 }
             }
             // else normal item
             else
             {
                 item.Quality = item.SellIn >= DEFAULT_SELLIN_DECAY_THRESHOLD ?
-                    item.Quality -= DEFAULT_QUALITY_DECAY : item.Quality -= (DEFAULT_QUALITY_DECAY * 2);
+                    item.Quality -= DEFAULT_QUALITY_DECAY : item.Quality -= DEFAULT_QUALITY_DECAY * 2;
             }
 
             // ensure quality is never greater than 50
