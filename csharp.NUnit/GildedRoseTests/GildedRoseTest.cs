@@ -7,22 +7,28 @@ namespace GildedRoseTests;
 public class GildedRoseTest
 {
     [Test]
-    public void UpdateQuality_Item_NameShouldBeUnmodified()
+    [TestCase("foo")]
+    [TestCase("bar")]
+    [TestCase("baz")]
+    public void UpdateQuality_Item_NameShouldBeUnmodified(string name)
     {
-        var items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 0 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = 0, Quality = 0 } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].Name, Is.EqualTo("foo"));
+        Assert.That(items[0].Name, Is.EqualTo(name));
     }
 
     [Test]
-    public void UpdateQuality_NormalItem_ShouldDecreaseSellInAndQualityByOne()
+    [TestCase("foo", 2, 2, 1, 1)]
+    [TestCase("bar", 10, 9, 9, 8)]
+    [TestCase("baz", 1, 0, 0, 0)]
+    public void UpdateQuality_NormalItem_ShouldDecreaseSellInAndQualityByOne(string name, int sellIn, int quality, int expectedSellIn, int expectedQuality)
     {
-        var items = new List<Item> { new Item { Name = "foo", SellIn = 2, Quality = 2 } };
+        var items = new List<Item> { new Item { Name = name, SellIn = sellIn, Quality = quality } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].SellIn, Is.EqualTo(1));
-        Assert.That(items[0].Quality, Is.EqualTo(1));
+        Assert.That(items[0].SellIn, Is.EqualTo(expectedSellIn));
+        Assert.That(items[0].Quality, Is.EqualTo(expectedQuality));
     }
 
     [Test]
